@@ -37,7 +37,7 @@ from biudzetas.routes import *
 
 class ManoModelView(ModelView):
     def is_accessible(self):
-        return current_user.is_authenticated and current_user.el_pastas == "el@pastas.lt"
+        return current_user.is_authenticated and current_user.admin
 
 from sqlalchemy import event
 

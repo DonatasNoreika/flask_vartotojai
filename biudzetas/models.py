@@ -1,16 +1,21 @@
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
 from flask_login import UserMixin
-from biudzetas import app, db, bcrypt
-from sqlalchemy.ext.hybrid import hybrid_property
+from biudzetas import app, db
 
 class Vartotojas(db.Model, UserMixin):
+    def ar_admin(self):
+        vartotojai = Vartotojas.query.all()
+        return len(vartotojai) < 1
+
     __tablename__ = "vartotojas"
     id = db.Column(db.Integer, primary_key=True)
     vardas = db.Column("Vardas", db.String(20), unique=True, nullable=False)
     el_pastas = db.Column("El. pašto adresas", db.String(120), unique=True, nullable=False)
     nuotrauka = db.Column(db.String(20), nullable=False, default='default.jpg')
     slaptazodis = db.Column("Slaptažodis", db.String(60), unique=True, nullable=False)
+    admin = db.Column("Administratorius", db.Boolean, default=ar_admin)
+
 
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(app.config['SECRET_KEY'], expires_sec)
