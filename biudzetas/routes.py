@@ -102,6 +102,7 @@ def paskyra():
         form.vardas.data = current_user.vardas
         form.el_pastas.data = current_user.el_pastas
     nuotrauka = url_for('static', filename='profilio_nuotraukos/' + current_user.nuotrauka)
+    print(nuotrauka)
     return render_template('paskyra.html', title='Account', form=form, nuotrauka=nuotrauka)
 
 

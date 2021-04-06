@@ -1,8 +1,8 @@
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
 from flask_login import UserMixin
-from biudzetas import app, db
-
+from biudzetas import app, db, bcrypt
+from sqlalchemy.ext.hybrid import hybrid_property
 
 class Vartotojas(db.Model, UserMixin):
     __tablename__ = "vartotojas"

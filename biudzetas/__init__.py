@@ -35,11 +35,17 @@ login_manager.login_message_category = 'info'
 
 from biudzetas.routes import *
 
-
 class ManoModelView(ModelView):
     def is_accessible(self):
         return current_user.is_authenticated and current_user.el_pastas == "el@pastas.lt"
 
+from sqlalchemy import event
+
+@event.listens_for(Vartotojas.slaptazodis, 'set', retval=True)
+def hash_user_password(target, value, oldvalue, initiator):
+    if value != oldvalue:
+        return bcrypt.generate_password_hash(value)
+    return value
 
 admin = Admin(app)
 admin.add_view(ManoModelView(Vartotojas, db.session))
