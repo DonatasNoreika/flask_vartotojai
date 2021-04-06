@@ -39,3 +39,5 @@ class Irasas(db.Model):
     suma = db.Column("Vardas", db.Integer)
     vartotojas_id = db.Column(db.Integer, db.ForeignKey("vartotojas.id"))
     vartotojas = db.relationship("Vartotojas", lazy=True)
+
+

@@ -48,6 +48,18 @@ def prisijungti():
             flash('Prisijungti nepavyko. Patikrinkite el. paštą ir slaptažodį', 'danger')
     return render_template('prisijungti.html', title='Prisijungti', form=form)
 
+@login_required
+@app.route("/naujas_irasas", methods=["GET", "POST"])
+def new_record():
+    db.create_all()
+    forma = forms.IrasasForm()
+    if forma.validate_on_submit():
+        naujas_irasas = Irasas(pajamos=forma.pajamos.data, suma=forma.suma.data, vartotojas_id=current_user.id)
+        db.session.add(naujas_irasas)
+        db.session.commit()
+        flash(f"Įrašas sukurtas", 'success')
+        return redirect(url_for('records'))
+    return render_template("prideti_irasa.html", form=forma)
 
 @app.route("/atsijungti")
 def atsijungti():
