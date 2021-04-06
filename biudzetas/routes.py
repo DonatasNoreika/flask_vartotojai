@@ -24,9 +24,8 @@ def registruotis():
         return redirect(url_for('index'))
     form = forms.RegistracijosForma()
     if form.validate_on_submit():
-        koduotas_slaptazodis = bcrypt.generate_password_hash(form.slaptazodis.data).decode('utf-8')
         vartotojas = Vartotojas(vardas=form.vardas.data, el_pastas=form.el_pastas.data,
-                                slaptazodis=koduotas_slaptazodis)
+                                slaptazodis=form.slaptazodis.data)
         db.session.add(vartotojas)
         db.session.commit()
         flash('Sėkmingai prisiregistravote! Galite prisijungti', 'success')
